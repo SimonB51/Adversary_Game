@@ -54,6 +54,7 @@ def main(args):
     print("Device used: {}".format(device))
 
     model = model.to(device)
+    best_model = model.state_dict()
 
     # Load the optimizer
     optimizer = get_optimizer(model, args.lr, args.optimizer)
@@ -63,12 +64,14 @@ def main(args):
     losses_test = []
     acc_train = []
     acc_test = []
+    
     loss, acc = test_model(model, test_loader, device)
     losses_test.append(loss)
     acc_test.append(acc)
 
     # Initialize a progress bar for tracking the progress of epochs
     pbar = tqdm.trange(args.epochs)
+    min_dloss = 1e10
 
     # Loop through the specified number of epochs
     for epoch in pbar:
@@ -90,6 +93,12 @@ def main(args):
 
         # After completing the training for all batches, evaluate the model on the test dataset
         loss, acc = test_model(model, test_loader, device)
+        if loss < min_dloss:
+            best_model = model
+            min_dloss = loss
+  
+
+
 
         # Append the test loss and accuracy to their respective lists for tracking
         losses_test.append(loss)
@@ -102,8 +111,8 @@ def main(args):
         plot_results(losses_train, losses_test, acc_train, acc_test, args)
 
         # To do 6
-        save_model(model, args)
-        visualize_results(x_test, y_test, model, device, args)
+        save_model(best_model, args)
+        visualize_results(x_test, y_test, best_model, device, args)
 
     # Save the final results 
     with open(os.path.join(args.path, 'results.txt'), 'a') as f:
