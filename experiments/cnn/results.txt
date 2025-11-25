@@ -1,2 +1,12 @@
 Clean:
 	 Loss: 0.7686, Accuracy: 74.13
+Attack: fgsm 	 FGSM_5.00e-02
+	 Loss: 9.4014, Accuracy: 0.97
+Attack: fgsm 	 FGSM_5.00e-02
+	 Loss: 9.4014, Accuracy: 0.97
+Attack: fgsm 	 FGSM_1.00e-01
+	 Loss: 12.0007, Accuracy: 0.31
+Attack: fgsm 	 FGSM_1.00e-02
+	 Loss: 2.7395, Accuracy: 32.00
+Attack: fgsm 	 FGSM_1.00e-03
+	 Loss: 0.9569, Accuracy: 69.09

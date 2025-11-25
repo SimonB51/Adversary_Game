@@ -33,16 +33,19 @@ class FastGradientSignMethod:
             torch.Tensor: The computed adversarial perturbations.
         """
         # initialize the perturbation delta to zero, and require gradient for optimization
-        delta = torch.zeros_like(x, requires_grad=True)
+        delta = torch.zeros_like(x, requires_grad=True) 
 
         # get model output and compute loss (cross-entropy)
         loss = nn.CrossEntropyLoss()(self.model(x + delta), y)
         loss.backward()
+        delta.grad.sign_()
+        perturbation = self.eps * delta.grad.sign_()
 
-        ## apply one step of sign gradient ascent to the input
 
-        ## To do 12
-        raise NotImplementedError 
+        
+
+        
+         
         return perturbation
 
 class ProjectedGradientDescent:
